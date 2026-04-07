@@ -1,13 +1,14 @@
 {
   "misas": [
-    "Lunes a Domingo: 19:30 horas.",
-    "Domingos: 10:30, 12:00 y 19:30 horas."
+    "Lunes a sábado: 19:30 hrs.",
+    "Domingo: 10:30, 12:00, y 19:30 hrs."
   ],
   "confesiones": [
     "Media hora antes de cada misa."
   ],
   "oficina": [
-    "Lunes a viernes: 10:00 a 13:00 hrs. y 15:00 a 18:00 hrs."
+    "Lunes a sábado: 10:00 a 13:00 hrs.",
+    "Lunes a viernes: 15:00 a 19:00 hrs."
   ],
   "secretaria": [
     {
