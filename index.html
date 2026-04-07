@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parroquia Nuestra Señora de las Nieves | Las Condes, Santiago</title>
+  <meta name="description" content="Bienvenidos a la Parroquia Nuestra Señora de las Nieves en Las Condes, Santiago. Conoce nuestros horarios de misas, confesiones, actividades comunitarias y las últimas noticias parroquiales.">
+  
+  <!-- Open Graph para Redes Sociales (Facebook, WhatsApp) -->
+  <meta property="og:title" content="Parroquia Nuestra Señora de las Nieves | Las Condes, Santiago">
+  <meta property="og:description" content="Información, noticias y horarios de misas en nuestra comunidad Nuestra Señora de las Nieves.">
+  <meta property="og:image" content="https://rodrigoquezada.github.io/LasNieves/assets/Parroquia-las-nieves.jpg">
+  <meta property="og:type" content="website">
+
+  <!-- Marcado Schema.org para SEO Local (Google) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CatholicChurch",
+    "name": "Parroquia Nuestra Señora de las Nieves",
+    "image": "https://rodrigoquezada.github.io/LasNieves/assets/Parroquia-las-nieves.jpg",
+    "description": "Iglesia Católica en Las Condes, Santiago de Chile. Encuentra nuestros horarios de Eucaristía, Adoración al Santísimo, sacramentos y actividades comunitarias.",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Av. Presidente Sebastían Piñera E. 1720",
+      "addressLocality": "Las Condes",
+      "addressRegion": "Región Metropolitana",
+      "addressCountry": "CL"
+    },
+    "telephone": "+56 2 2224 4805"
+  }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { theme: { extend: { colors: { arena: '#F3E5DC', celesteLasNieves: '#0EA5E9', negro: '#000000' } } } }</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      background-color: #F3E5DC;
+      color: #000000;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    main {
+      flex-grow: 1;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: #0EA5E9;
+      font-weight: bold;
+    }
+
+    .btn-flotante-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 1000;
+    }
+
+    .btn-flotante {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s;
+      text-decoration: none;
+      font-size: 24px;
+    }
+
+    .btn-flotante:hover {
+      transform: scale(1.1);
+      color: white;
+    }
+
+    .btn-subir {
+      background-color: #0EA5E9;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-whatsapp {
+      background-color: #25D366;
+    }
+
+    .card {
+      background: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      height: 100%;
+    }
+
+    .nav-link {
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .banner-container {
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+      height: 400px;
+      border-radius: 0.5rem;
+      background: #000;
+    }
+
+    .banner-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      display: flex;
+      align-items: flex-end;
+      cursor: pointer;
+    }
+
+    .banner-slide.active {
+      opacity: 1;
+      z-index: 10;
+    }
+
+    .banner-image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background-color: #000;
+    }
+
+    .banner-overlay {
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+      width: 100%;
+      padding: 40px 20px 20px 20px;
+      color: white;
+    }
+
+    .banner-title {
+      font-size: 1.8rem;
+      color: white !important;
+      text-shadow: 1px 1px 3px black;
+      margin-bottom: 0;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="menu-container"></div>
+
+  <main class="container mx-auto px-4 pt-2 pb-8 md:py-8">
+    <h1 class="sr-only">Parroquia Nuestra Señora de las Nieves - Iglesia Católica en Las Condes, Santiago</h1>
+    <section id="inicio">
+      <div class="mb-12">
+        <img id="foto-parroquia" src="assets/Parroquia-las-nieves.jpg" alt="Parroquia Nuestra Señora de las Nieves"
+          class="w-full h-auto rounded-xl shadow-lg mb-12">
+        <h2 class="text-3xl mb-4 text-center">Noticias Destacadas</h2>
+        <div id="noticias-banner" class="banner-container shadow-lg mb-6"></div>
+        <div class="text-center">
+          <a href="paginas/noticias.html" class="inline-block px-6 py-3 bg-celesteLasNieves text-white font-bold rounded-lg shadow-md hover:bg-sky-600 transition duration-300">
+            Ver noticias
+          </a>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="card">
+          <h3 class="text-2xl mb-4"><i class="fas fa-clock mr-2"></i>Horarios de Misas</h3>
+          <ul id="lista-misas" class="space-y-2">
+            <li><i class="fas fa-spinner fa-spin text-celesteLasNieves"></i> Cargando...</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 class="text-2xl mb-4"><i class="fas fa-pray mr-2"></i>Horarios Confesiones</h3>
+          <ul id="lista-confesiones" class="space-y-2">
+            <li><i class="fas fa-spinner fa-spin text-celesteLasNieves"></i> Cargando...</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 class="text-2xl mb-4"><i class="fas fa-building mr-2"></i>Horarios de Oficina</h3>
+          <ul id="lista-oficina" class="space-y-2">
+            <li><i class="fas fa-spinner fa-spin text-celesteLasNieves"></i> Cargando...</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 class="text-2xl mb-4"><i class="fas fa-address-card mr-2"></i>Contacto Secretaría</h3>
+          <ul id="lista-secretaria" class="space-y-3">
+            <li><i class="fas fa-spinner fa-spin text-celesteLasNieves"></i> Cargando...</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-container"></div>
+  <script src="components.js?v=2"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      fetch("noticias.json?v=" + new Date().getTime())
+        .then(response => response.json())
+        .then(newsData => {
+          const bannerContainer = document.getElementById("noticias-banner");
+          let bannerHTML = "";
+          let bannerNews = newsData.filter(n => n.isBanner === true);
+          if (bannerNews.length === 0) bannerNews = newsData.slice(0, 3);
+
+          bannerNews.forEach((n, index) => {
+            bannerHTML += `
+                        <div class="banner-slide ${index === 0 ? 'active' : ''}" onclick="window.location.href='paginas/noticia.html?id=${n.id}'">
+                            <img src="${n.imageUrl}" alt="${n.title}" class="banner-image">
+                            <div class="banner-overlay">
+                                <h3 class="banner-title">${n.title}</h3>
+                            </div>
+                        </div>
+                    `;
+          });
+          bannerContainer.innerHTML = bannerHTML;
+
+          let currentSlide = 0;
+          const slides = document.querySelectorAll('.banner-slide');
+          if (slides.length > 1) {
+            setInterval(() => {
+              slides[currentSlide].classList.remove('active');
+              currentSlide = (currentSlide + 1) % slides.length;
+              slides[currentSlide].classList.add('active');
+            }, 5000);
+          }
+        })
+        .catch(error => console.error("Error cargando noticias:", error));
+
+      // Fetch horarios
+      fetch("horarios.json?v=" + new Date().getTime())
+        .then(response => response.json())
+        .then(data => {
+            if(data.misas) document.getElementById('lista-misas').innerHTML = data.misas.map(m => `<li>${m}</li>`).join('');
+            if(data.confesiones) document.getElementById('lista-confesiones').innerHTML = data.confesiones.map(c => `<li>${c}</li>`).join('');
+            if(data.oficina) document.getElementById('lista-oficina').innerHTML = data.oficina.map(o => `<li>${o}</li>`).join('');
+            if(data.secretaria) {
+                document.getElementById('lista-secretaria').innerHTML = data.secretaria.map(s => `
+                  <li class="flex items-start">
+                    <i class="${s.icono} text-celesteLasNieves mt-1 w-6 text-center"></i>
+                    <a href="${s.url}" ${s.url.startsWith('http') ? 'target="_blank"' : ''} class="hover:text-celesteLasNieves transition ml-2 break-all">${s.texto}</a>
+                  </li>
+                `).join('');
+            }
+        })
+        .catch(error => console.error("Error cargando horarios:", error));
+    });
+  </script>
+</body>
+
+</html>

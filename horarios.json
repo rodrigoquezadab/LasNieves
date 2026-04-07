@@ -1,0 +1,34 @@
+{
+  "misas": [
+    "Lunes a Domingo: 19:30 horas.",
+    "Domingos: 10:30, 12:00 y 19:30 horas."
+  ],
+  "confesiones": [
+    "Media hora antes de cada misa."
+  ],
+  "oficina": [
+    "Lunes a viernes: 10:00 a 13:00 hrs. y 15:00 a 18:00 hrs."
+  ],
+  "secretaria": [
+    {
+      "icono": "fas fa-map-marker-alt",
+      "url": "https://www.google.com/maps/search/?api=1&query=Av.+Presidente+Sebastián+Piñera+E.+1720,+Las+Condes",
+      "texto": "Av. Presidente Sebastían Piñera E. 1720, Las Condes"
+    },
+    {
+      "icono": "fas fa-phone",
+      "url": "tel:+56222244805",
+      "texto": "+56 2 2224 4805"
+    },
+    {
+      "icono": "fab fa-whatsapp",
+      "url": "https://wa.me/56932869591",
+      "texto": "+56 9 3286 9591"
+    },
+    {
+      "icono": "fas fa-envelope",
+      "url": "mailto:secretaria@nsn.cl",
+      "texto": "secretaria@nsn.cl"
+    }
+  ]
+}
