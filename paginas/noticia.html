@@ -43,10 +43,36 @@
             return;
         }
 
-        fetch("../noticias.json?v=" + new Date().getTime())
-            .then(response => response.json())
-            .then(newsData => {
-                const article = newsData.find(n => n.id === articleId);
+        Promise.all([
+            fetch("../noticias.json?v=" + new Date().getTime()).then(res => res.ok ? res.json() : []).catch(() => []),
+            fetch("../assets/flyers/")
+                .then(res => res.ok ? res.text() : "")
+                .then(html => {
+                    const regex = /href="([^"]*?\.(?:jpg|jpeg|png|gif|webp))"/gi;
+                    let flyers = [];
+                    let match;
+                    while ((match = regex.exec(html)) !== null) {
+                    let filename = match[1].split('/').pop();
+                    let decodedFilename = decodeURIComponent(filename);
+                    let baseName = decodedFilename.replace(/\.[^/.]+$/, "");
+                    let title = baseName.replace(/[-_]/g, " ").toUpperCase();
+                    let safeId = "flyer-" + baseName.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+                    flyers.push({
+                        id: safeId,
+                        title: title,
+                        description: "Revisa el afiche adjunto para más información.",
+                        date: new Date().toLocaleDateString('es-CL'),
+                        imageUrl: "assets/flyers/" + decodedFilename,
+                        isFlyer: true
+                    });
+                    }
+                    return flyers.filter((v,i,a)=>a.findIndex(t=>(t.imageUrl === v.imageUrl))===i);
+                })
+                .catch(() => [])
+        ])
+            .then(([newsData, flyersData]) => {
+                const allNews = flyersData.concat(newsData);
+                const article = allNews.find(n => n.id === articleId);
                 
                 if (article) {
                     document.title = "Parroquia Nuestra Señora de las Nieves - " + article.title;

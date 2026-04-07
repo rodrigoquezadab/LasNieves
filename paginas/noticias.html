@@ -37,12 +37,38 @@
 <script src="../components.js?v=2"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        fetch("../noticias.json?v=" + new Date().getTime())
-            .then(response => response.json())
-            .then(newsData => {
+        Promise.all([
+            fetch("../noticias.json?v=" + new Date().getTime()).then(res => res.ok ? res.json() : []).catch(() => []),
+            fetch("../assets/flyers/")
+                .then(res => res.ok ? res.text() : "")
+                .then(html => {
+                    const regex = /href="([^"]*?\.(?:jpg|jpeg|png|gif|webp))"/gi;
+                    let flyers = [];
+                    let match;
+                    while ((match = regex.exec(html)) !== null) {
+                    let filename = match[1].split('/').pop();
+                    let decodedFilename = decodeURIComponent(filename);
+                    let baseName = decodedFilename.replace(/\.[^/.]+$/, "");
+                    let title = baseName.replace(/[-_]/g, " ").toUpperCase();
+                    let safeId = "flyer-" + baseName.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+                    flyers.push({
+                        id: safeId,
+                        title: title,
+                        description: "Revisa la información en el afiche adjunto para más detalles.",
+                        date: new Date().toLocaleDateString('es-CL'),
+                        imageUrl: "assets/flyers/" + decodedFilename,
+                        isFlyer: true
+                    });
+                    }
+                    return flyers.filter((v,i,a)=>a.findIndex(t=>(t.imageUrl === v.imageUrl))===i);
+                })
+                .catch(() => [])
+        ])
+            .then(([newsData, flyersData]) => {
+                const allNews = flyersData.concat(newsData);
                 const gridContainer = document.getElementById("noticias-grid");
                 let gridHTML = "";
-                newsData.forEach(n => {
+                allNews.forEach(n => {
                     gridHTML += `
                         <div class="card flex flex-col cursor-pointer hover:shadow-xl transition" onclick="window.location.href='noticia.html?id=${n.id}'">
                             <img src="../${n.imageUrl}" alt="${n.title}" class="w-full h-64 object-contain rounded-t-lg mb-4 bg-gray-100">
