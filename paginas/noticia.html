@@ -45,13 +45,13 @@
 
         Promise.all([
             fetch("../noticias.json?v=" + new Date().getTime()).then(res => res.ok ? res.json() : []).catch(() => []),
-            fetch("../assets/flyers/")
-                .then(res => res.ok ? res.text() : "")
-                .then(async html => {
-                    const regex = /href="([^"]*?\.(?:jpg|jpeg|png|gif|webp))"/gi;
-                    let flyers = [];
-                    let match;
-                    while ((match = regex.exec(html)) !== null) {
+            fetch("../assets/flyers/").then(res => res.ok ? res.text() : "").catch(() => "")
+        ])
+            .then(async ([newsData, html]) => {
+                const regex = /href="([^"]*?\.(?:jpg|jpeg|png|gif|webp))"/gi;
+                let flyers = [];
+                let match;
+                while ((match = regex.exec(html)) !== null) {
                     let filename = match[1].split('/').pop();
                     let decodedFilename = decodeURIComponent(filename);
                     let baseName = decodedFilename.replace(/\.[^/.]+$/, "");
@@ -65,41 +65,39 @@
                         imageUrl: "assets/flyers/" + decodedFilename,
                         isFlyer: true
                     });
-                    }
-                    
-                    if (flyers.length === 0 && window.location.hostname !== '127.0.0.1' && window.location.hostname !== 'localhost') {
-                        try {
-                            const apiRes = await fetch("https://api.github.com/repos/rodrigoquezadab/LasNieves/contents/assets/flyers");
-                            if (apiRes.ok) {
-                                const files = await apiRes.json();
-                                files.forEach(file => {
-                                    if (file.name.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
-                                        let decodedFilename = decodeURIComponent(file.name);
-                                        let baseName = decodedFilename.replace(/\.[^/.]+$/, "");
-                                        let title = baseName.replace(/[-_]/g, " ").toUpperCase();
-                                        let safeId = "flyer-" + baseName.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
-                                        flyers.push({
-                                            id: safeId,
-                                            title: title,
-                                            description: "Revisa el afiche adjunto para más información.",
-                                            date: new Date().toLocaleDateString('es-CL'),
-                                            imageUrl: "assets/flyers/" + file.name,
-                                            isFlyer: true
-                                        });
-                                    }
-                                });
-                            }
-                        } catch (e) {
-                            console.error("Error cargando desde GitHub API", e);
+                }
+                
+                if (flyers.length === 0 && window.location.hostname !== '127.0.0.1' && window.location.hostname !== 'localhost') {
+                    try {
+                        // IMPORTANTE: Modifica este enlace con mi usuario y repo correspondientes
+                        const apiRes = await fetch("https://api.github.com/repos/rodrigoquezadab/LasNieves/contents/assets/flyers");
+                        if (apiRes.ok) {
+                            const files = await apiRes.json();
+                            files.forEach(file => {
+                                if (file.name.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
+                                    let decodedFilename = decodeURIComponent(file.name);
+                                    let baseName = decodedFilename.replace(/\.[^/.]+$/, "");
+                                    let title = baseName.replace(/[-_]/g, " ").toUpperCase();
+                                    let safeId = "flyer-" + baseName.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+                                    flyers.push({
+                                        id: safeId,
+                                        title: title,
+                                        description: "Revisa el afiche adjunto para más información.",
+                                        date: new Date().toLocaleDateString('es-CL'),
+                                        imageUrl: "assets/flyers/" + file.name,
+                                        isFlyer: true
+                                    });
+                                }
+                            });
                         }
+                    } catch (e) {
+                        console.error("Error cargando desde GitHub API", e);
                     }
-                    
-                    return flyers.filter((v,i,a)=>a.findIndex(t=>(t.imageUrl === v.imageUrl))===i);
-                })
-                .catch(() => [])
-        ])
-            .then(([newsData, flyersData]) => {
-                const allNews = flyersData.concat(newsData);
+                }
+                
+                flyers = flyers.filter((v,i,a)=>a.findIndex(t=>(t.imageUrl === v.imageUrl))===i);
+
+                let allNews = [...flyers, ...newsData];
                 const article = allNews.find(n => n.id === articleId);
                 
                 if (article) {
