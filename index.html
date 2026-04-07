@@ -147,7 +147,18 @@
       position: absolute;
       inset: 0;
       z-index: -1;
-      background-color: #000;
+    }
+
+    .banner-blur-bg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      filter: blur(15px);
+      transform: scale(1.1);
+      opacity: 0.6;
     }
 
     .banner-overlay {
@@ -218,21 +229,38 @@
   <script src="components.js?v=2"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      fetch("noticias.json?v=" + new Date().getTime())
-        .then(response => response.json())
-        .then(newsData => {
+      Promise.all([
+        fetch("noticias.json?v=" + new Date().getTime()).then(res => res.ok ? res.json() : []).catch(() => []),
+        fetch("https://api.github.com/repos/rodrigoquezadab/LasNieves/contents/assets/flyers")
+            .then(res => res.ok ? res.json() : [])
+            .then(files => Array.isArray(files) ? files.filter(f => f.type === 'file' && f.name.match(/\.(jpg|jpeg|png|gif|webp)$/i)).map(f => 'assets/flyers/' + f.name) : [])
+            .catch(() => [])
+      ])
+        .then(([newsData, flyersData]) => {
           const bannerContainer = document.getElementById("noticias-banner");
           let bannerHTML = "";
-          let bannerNews = newsData.filter(n => n.isBanner === true);
-          if (bannerNews.length === 0) bannerNews = newsData.slice(0, 3);
+          let bannerItems = [];
 
-          bannerNews.forEach((n, index) => {
+          let bannerNews = newsData.filter(n => n.isBanner === true);
+          if (bannerNews.length === 0 && flyersData.length === 0) {
+            bannerNews = newsData.slice(0, 3);
+          }
+          bannerItems = bannerItems.concat(bannerNews);
+
+          flyersData.forEach(url => {
+              bannerItems.push({ imageUrl: url, isFlyer: true });
+          });
+
+          if (bannerItems.length === 0) return;
+
+          bannerItems.forEach((n, index) => {
+            const hasTitle = !n.isFlyer && n.title;
+            const clickHandler = !n.isFlyer && n.id ? `onclick="window.location.href='paginas/noticia.html?id=${n.id}'"` : '';
             bannerHTML += `
-                        <div class="banner-slide ${index === 0 ? 'active' : ''}" onclick="window.location.href='paginas/noticia.html?id=${n.id}'">
-                            <img src="${n.imageUrl}" alt="${n.title}" class="banner-image">
-                            <div class="banner-overlay">
-                                <h3 class="banner-title">${n.title}</h3>
-                            </div>
+                        <div class="banner-slide ${index === 0 ? 'active' : ''}" ${clickHandler}>
+                            <img src="${n.imageUrl}" alt="Banner" class="banner-blur-bg">
+                            <img src="${n.imageUrl}" alt="Banner" class="banner-image">
+                            ${hasTitle ? `<div class="banner-overlay"><h3 class="banner-title">${n.title}</h3></div>` : ''}
                         </div>
                     `;
           });
@@ -245,10 +273,10 @@
               slides[currentSlide].classList.remove('active');
               currentSlide = (currentSlide + 1) % slides.length;
               slides[currentSlide].classList.add('active');
-            }, 5000);
+            }, 6000); // 6 segundos por banner
           }
         })
-        .catch(error => console.error("Error cargando noticias:", error));
+        .catch(error => console.error("Error cargando banner:", error));
 
       // Fetch horarios
       fetch("horarios.json?v=" + new Date().getTime())
