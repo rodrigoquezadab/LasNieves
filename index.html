@@ -260,9 +260,9 @@
                         if (apiRes.ok) {
                             const files = await apiRes.json();
                             files.forEach(file => {
-                                if (file.name.match(/\\.(jpg|jpeg|png|gif|webp)$/i)) {
+                                if (file.name.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
                                     let decodedFilename = decodeURIComponent(file.name);
-                                    let baseName = decodedFilename.replace(/\\.[^/.]+$/, "");
+                                    let baseName = decodedFilename.replace(/\.[^/.]+$/, "");
                                     let title = baseName.replace(/[-_]/g, " ").toUpperCase();
                                     let safeId = "flyer-" + baseName.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
                                     flyers.push({
