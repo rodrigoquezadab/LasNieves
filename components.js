@@ -8,11 +8,24 @@ document.addEventListener("DOMContentLoaded", function () {
             if(menuContainer) {
                 menuContainer.innerHTML = data;
     
-                // Lógica del menú móvil
+                // Lógica del menú móvil con icono interactivo y accesibilidad
                 const menuToggle = document.getElementById('menu-toggle');
                 const mobileMenu = document.getElementById('mobile-menu');
                 if (menuToggle && mobileMenu) {
-                    menuToggle.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+                    menuToggle.addEventListener('click', () => {
+                        const isHidden = mobileMenu.classList.toggle('hidden');
+                        menuToggle.setAttribute('aria-expanded', !isHidden);
+                        const icon = menuToggle.querySelector('i');
+                        if (icon) {
+                            if (isHidden) {
+                                icon.classList.remove('fa-times');
+                                icon.classList.add('fa-bars');
+                            } else {
+                                icon.classList.remove('fa-bars');
+                                icon.classList.add('fa-times');
+                            }
+                        }
+                    });
                 }
     
                 // Arreglar enlaces del menú dinámicamente según dónde estemos
@@ -41,12 +54,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     });
                 }
 
-                // Marcar enlace activo
+                // Marcar enlace activo únicamente en los ítems de navegación (.nav-link)
                 const pathInfo = window.location.pathname.split('/');
                 const currentPage = pathInfo[pathInfo.length - 1] || 'index.html';
-                links.forEach(link => {
+                const navLinks = menuContainer.querySelectorAll('.nav-link');
+                navLinks.forEach(link => {
                     const finalHref = link.getAttribute('href');
-                    if (finalHref.includes(currentPage) || (currentPage === 'index.html' && finalHref.includes('index.html'))) {
+                    const linkFile = finalHref ? finalHref.split('/').pop().split('\\').pop() : '';
+                    if (linkFile === currentPage || (currentPage === '' && linkFile === 'index.html')) {
                         link.classList.add('active');
                     } else {
                         link.classList.remove('active');

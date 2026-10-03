@@ -16,18 +16,17 @@
         .btn-flotante:hover { transform: scale(1.1); color: white; }
         .btn-subir { background-color: #0EA5E9; cursor: pointer; border: none; }
         .btn-whatsapp { background-color: #25D366; }
-        .card { background: white; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 1.5rem; height: 100%; }
-        .nav-link { color: white; padding: 0.5rem 1rem; border-radius: 0.25rem; }
-        .nav-link:hover, .nav-link.active { background-color: rgba(255,255,255,0.2); }
+        .card { background: white; border-radius: 0.75rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.08); padding: 1.25rem; height: 100%; }
+        @media (min-width: 640px) { .card { padding: 1.75rem; } }
     </style>
 </head>
 <body>
 <div id="menu-container"></div>
 
-<main class="container mx-auto px-4 py-8 space-y-16">
+<main class="container mx-auto px-4 py-6 md:py-10">
     <section id="aportes">
-        <h2 class="text-3xl mb-6 text-center">Aportes y 1% a la Iglesia</h2>
-        <div class="grid md:grid-cols-2 gap-8">
+        <h2 class="text-2xl sm:text-3xl mb-6 text-center font-bold">Aportes y 1% a la Iglesia</h2>
+        <div class="grid md:grid-cols-2 gap-6 lg:gap-8">
             <div class="card">
                 <h3 class="text-2xl mb-4"><i class="fas fa-university mr-2"></i>Cuenta Corriente</h3>
                 <ul class="space-y-2">

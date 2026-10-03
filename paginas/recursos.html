@@ -16,15 +16,14 @@
         .btn-flotante:hover { transform: scale(1.1); color: white; }
         .btn-subir { background-color: #0EA5E9; cursor: pointer; border: none; }
         .btn-whatsapp { background-color: #25D366; }
-        .card { background: white; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 1.5rem; height: 100%; }
-        .nav-link { color: white; padding: 0.5rem 1rem; border-radius: 0.25rem; }
-        .nav-link:hover, .nav-link.active { background-color: rgba(255,255,255,0.2); }
+        .card { background: white; border-radius: 0.75rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.08); padding: 1.25rem; height: 100%; }
+        @media (min-width: 640px) { .card { padding: 1.75rem; } }
     </style>
 </head>
 <body>
 <div id="menu-container"></div>
 
-<main class="container mx-auto px-4 py-8 space-y-16">
+<main class="container mx-auto px-4 py-6 md:py-10 max-w-5xl">
     <section id="recursos">
         <h2 class="text-3xl mb-6 text-center">Recursos</h2>
         <div id="lista-oraciones-container" class="mb-8 card transition-opacity duration-300">
@@ -42,10 +41,6 @@
             <div id="oracion-contenido" class="space-y-4 text-gray-800"></div>
         </div>
 
-        <div class="mb-8 card p-2">
-            <h3 class="text-2xl mb-4 ml-4 mt-2">Calendario</h3>
-            <iframe src="https://docs.google.com/document/d/1DKdfRcEssrobyQMikHdtir8IPtCKnADjKy31Z9WceaY/preview" width="100%" height="1030px" frameborder="0"></iframe>
-        </div>
 
         <div class="card transition-opacity duration-300">
             <h3 class="text-2xl mb-4 border-b pb-2"><i class="fas fa-external-link-alt mr-2 text-celesteLasNieves"></i>Enlaces y Recursos Externos</h3>

@@ -1,24 +1,43 @@
 <nav class="bg-celesteLasNieves sticky top-0 z-50 shadow-md">
-    <div class="container mx-auto px-4 flex flex-wrap justify-between items-center py-3">
-        <a href="../index.html" class="text-white text-xl font-bold flex items-center">
-            <img src="assets/Parroquia-las-nieves-logo.jpg" alt="Logo Parroquia Nuestra Señora de las Nieves" class="h-10 w-auto mr-3 rounded-full object-cover">
-            Parroquia Nuestra Señora de las Nieves
+    <div class="container mx-auto px-4 py-2.5 sm:py-3 flex flex-wrap justify-between items-center">
+        <!-- Logo y Nombre de la Parroquia -->
+        <a href="../index.html" class="text-white flex items-center min-w-0 pr-2 group transition-opacity hover:opacity-95">
+            <img src="assets/Parroquia-las-nieves-logo.jpg" alt="Logo Parroquia Nuestra Señora de las Nieves" class="h-9 w-9 sm:h-10 sm:w-10 rounded-full object-cover shrink-0 mr-2.5 sm:mr-3 border border-white/40 shadow-sm">
+            <span class="text-sm xs:text-base sm:text-lg xl:text-xl font-bold tracking-tight text-white leading-tight truncate sm:whitespace-normal">Parroquia Nuestra Señora de las Nieves</span>
         </a>
-        <button id="menu-toggle" class="lg:hidden text-white focus:outline-none"><i class="fas fa-bars fa-xl"></i></button>
-        <div id="mobile-menu" class="hidden w-full lg:flex lg:w-auto mt-4 lg:mt-0 pb-4 lg:pb-0">
-            <ul id="nav-list" class="flex flex-col lg:flex-row flex-wrap justify-center space-y-2 lg:space-y-0 text-center text-sm lg:text-base lg:space-x-2">
-                <li><a href="../index.html" class="nav-link block">Inicio</a></li>
-                <li><a href="adoracion.html" class="nav-link block">Adoración</a></li>
-                <li><a href="aportes.html" class="nav-link block">Aportes</a></li>
-                <li><a href="congregacion.html" class="nav-link block">Congregación</a></li>
-                <li><a href="evangelio.html" class="nav-link block">Evangelio</a></li>
-                <li><a href="noticias.html" class="nav-link block">Noticias</a></li>
-                <li><a href="servicios.html" class="nav-link block">Servicios</a></li>
-                <li><a href="contacto.html" class="nav-link block">Contacto</a></li>
-                <li><a href="recursos.html" class="nav-link block">Recursos</a></li>
-                <li><a href="comunidades.html" class="nav-link block">Comunidades</a></li>
+
+        <!-- Botón Toggle Móvil -->
+        <button id="menu-toggle" type="button" class="lg:hidden text-white p-2 rounded-lg hover:bg-white/15 focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors shrink-0" aria-label="Abrir menú de navegación" aria-expanded="false">
+            <i class="fas fa-bars fa-lg"></i>
+        </button>
+
+        <!-- Menú de Navegación (Desplegable en móvil y barra continua en desktop) -->
+        <div id="mobile-menu" class="hidden w-full lg:flex lg:w-auto lg:items-center mt-3 lg:mt-0 transition-all duration-200">
+            <ul id="nav-list" class="flex flex-col lg:flex-row gap-1 xl:gap-1.5 bg-sky-600/95 lg:bg-transparent rounded-xl p-2.5 lg:p-0 shadow-inner lg:shadow-none">
+                <li><a href="../index.html" class="nav-link block text-center lg:text-left py-2 px-3 xl:px-2.5 rounded-lg font-medium text-white/95 hover:text-white hover:bg-white/20 transition-all text-sm xl:text-base">Inicio</a></li>
+                <li><a href="servicios.html" class="nav-link block text-center lg:text-left py-2 px-3 xl:px-2.5 rounded-lg font-medium text-white/95 hover:text-white hover:bg-white/20 transition-all text-sm xl:text-base">Servicios</a></li>
+                <li><a href="contacto.html" class="nav-link block text-center lg:text-left py-2 px-3 xl:px-2.5 rounded-lg font-medium text-white/95 hover:text-white hover:bg-white/20 transition-all text-sm xl:text-base">Contacto</a></li>
+                <li><a href="aportes.html" class="nav-link block text-center lg:text-left py-2 px-3 xl:px-2.5 rounded-lg font-medium text-white/95 hover:text-white hover:bg-white/20 transition-all text-sm xl:text-base">Aportes</a></li>
+                <li><a href="congregacion.html" class="nav-link block text-center lg:text-left py-2 px-3 xl:px-2.5 rounded-lg font-medium text-white/95 hover:text-white hover:bg-white/20 transition-all text-sm xl:text-base">Congregación</a></li>
+                <li><a href="evangelio.html" class="nav-link block text-center lg:text-left py-2 px-3 xl:px-2.5 rounded-lg font-medium text-white/95 hover:text-white hover:bg-white/20 transition-all text-sm xl:text-base">Evangelio</a></li>
+                <li><a href="recursos.html" class="nav-link block text-center lg:text-left py-2 px-3 xl:px-2.5 rounded-lg font-medium text-white/95 hover:text-white hover:bg-white/20 transition-all text-sm xl:text-base">Recursos</a></li>
             </ul>
         </div>
     </div>
 </nav>
-
+<style>
+    .nav-link {
+        color: rgba(255, 255, 255, 0.95);
+        transition: all 0.2s ease;
+    }
+    .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+    }
+    .nav-link.active {
+        background-color: #ffffff !important;
+        color: #0284c7 !important;
+        font-weight: 700 !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    }
+</style>

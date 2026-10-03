@@ -99,81 +99,23 @@
 
     .card {
       background: white;
-      border-radius: 0.5rem;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      padding: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+      padding: 1.25rem;
       height: 100%;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .nav-link {
-      color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 0.25rem;
+    @media (min-width: 640px) {
+      .card {
+        padding: 1.5rem;
+      }
     }
 
-    .nav-link:hover,
-    .nav-link.active {
-      background-color: rgba(255, 255, 255, 0.2);
-    }
-
-    .banner-container {
-      overflow: hidden;
-      position: relative;
-      width: 100%;
-      height: 400px;
-      border-radius: 0.5rem;
-      background: #000;
-    }
-
-    .banner-slide {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      transition: opacity 1s ease-in-out;
-      display: flex;
-      align-items: flex-end;
-      cursor: pointer;
-    }
-
-    .banner-slide.active {
-      opacity: 1;
-      z-index: 10;
-    }
-
-    .banner-image {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-    }
-
-    .banner-blur-bg {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      position: absolute;
-      inset: 0;
-      z-index: -2;
-      filter: blur(15px);
-      transform: scale(1.1);
-      opacity: 0.6;
-    }
-
-    .banner-overlay {
-      background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
-      width: 100%;
-      padding: 40px 20px 20px 20px;
-      color: white;
-    }
-
-    .banner-title {
-      font-size: 1.8rem;
-      color: white !important;
-      text-shadow: 1px 1px 3px black;
-      margin-bottom: 0;
-      font-weight: bold;
+    @media (min-width: 1024px) {
+      .card {
+        padding: 1.75rem;
+      }
     }
   </style>
 </head>
@@ -181,22 +123,15 @@
 <body>
   <div id="menu-container"></div>
 
-  <main class="container mx-auto px-4 pt-2 pb-8 md:py-8">
+  <main class="container mx-auto px-4 py-6 md:py-10">
     <h1 class="sr-only">Parroquia Nuestra Señora de las Nieves - Iglesia Católica en Las Condes, Santiago</h1>
     <section id="inicio">
-      <div class="mb-12">
+      <div class="mb-8 md:mb-12">
         <img id="foto-parroquia" src="assets/Parroquia-las-nieves.jpg" alt="Parroquia Nuestra Señora de las Nieves"
-          class="w-full h-auto rounded-xl shadow-lg mb-12">
-        <h2 class="text-3xl mb-4 text-center">Noticias Destacadas</h2>
-        <div id="noticias-banner" class="banner-container shadow-lg mb-6"></div>
-        <div class="text-center">
-          <a href="paginas/noticias.html" class="inline-block px-6 py-3 bg-celesteLasNieves text-white font-bold rounded-lg shadow-md hover:bg-sky-600 transition duration-300">
-            Ver noticias
-          </a>
-        </div>
+          class="w-full h-auto rounded-xl shadow-lg">
       </div>
 
-      <div class="grid md:grid-cols-2 gap-8">
+      <div class="grid md:grid-cols-2 gap-6 lg:gap-8">
         <div class="card">
           <h3 class="text-2xl mb-4"><i class="fas fa-clock mr-2"></i>Horarios de Misas</h3>
           <ul id="lista-misas" class="space-y-2">
@@ -229,98 +164,6 @@
   <script src="components.js?v=2"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      Promise.all([
-        fetch("noticias.json?v=" + new Date().getTime()).then(res => res.ok ? res.json() : []).catch(() => []),
-        fetch("assets/flyers/").then(res => res.ok ? res.text() : "").catch(() => "")
-      ])
-        .then(async ([newsData, html]) => {
-          const regex = /href="([^"]*?\.(?:jpg|jpeg|png|gif|webp))"/gi;
-          let flyers = [];
-          let match;
-          while ((match = regex.exec(html)) !== null) {
-              let filename = match[1].split('/').pop();
-              let decodedFilename = decodeURIComponent(filename);
-              let baseName = decodedFilename.replace(/\.[^/.]+$/, "");
-              let title = baseName.replace(/[-_]/g, " ").toUpperCase();
-              let safeId = "flyer-" + baseName.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
-              flyers.push({
-                  id: safeId,
-                  title: title,
-                  description: "Revisa la información en el afiche adjunto para más detalles.",
-                  date: new Date().toLocaleDateString('es-CL'),
-                  imageUrl: "assets/flyers/" + decodedFilename,
-                  isFlyer: true,
-                  isBanner: true
-              });
-          }
-          
-          if (flyers.length === 0 && window.location.hostname !== '127.0.0.1' && window.location.hostname !== 'localhost') {
-              try {
-                  // IMPORTANTE: Modifica este enlace con mi usuario y repo correspondientes
-                  const apiRes = await fetch("https://api.github.com/repos/rodrigoquezadab/LasNieves/contents/assets/flyers");
-                  if (apiRes.ok) {
-                      const files = await apiRes.json();
-                      files.forEach(file => {
-                          if (file.name.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
-                              let decodedFilename = decodeURIComponent(file.name);
-                              let baseName = decodedFilename.replace(/\.[^/.]+$/, "");
-                              let title = baseName.replace(/[-_]/g, " ").toUpperCase();
-                              let safeId = "flyer-" + baseName.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
-                              flyers.push({
-                                  id: safeId,
-                                  title: title,
-                                  description: "Revisa la información en el afiche adjunto para más detalles.",
-                                  date: new Date().toLocaleDateString('es-CL'),
-                                  imageUrl: "assets/flyers/" + file.name,
-                                  isFlyer: true,
-                                  isBanner: true
-                              });
-                          }
-                      });
-                  }
-              } catch (e) {
-                  console.error("Error cargando desde GitHub API", e);
-              }
-          }
-          
-          flyers = flyers.filter((v,i,a)=>a.findIndex(t=>(t.imageUrl === v.imageUrl))===i);
-
-          let allNews = [...flyers, ...newsData];
-
-          const bannerContainer = document.getElementById("noticias-banner");
-          let bannerHTML = "";
-          let bannerItems = allNews.filter(n => n.isBanner === true || n.isFlyer === true);
-
-          if (bannerItems.length === 0) {
-            bannerItems = allNews.slice(0, 3);
-          }
-
-          if (bannerItems.length === 0) return;
-
-          bannerItems.forEach((n, index) => {
-            const clickHandler = n.id ? `onclick="window.location.href='paginas/noticia.html?id=${n.id}'"` : '';
-            bannerHTML += `
-                        <div class="banner-slide ${index === 0 ? 'active' : ''}" ${clickHandler}>
-                            <img src="${n.imageUrl}" alt="Banner" class="banner-blur-bg">
-                            <img src="${n.imageUrl}" alt="Banner" class="banner-image">
-                            <div class="banner-overlay"><h3 class="banner-title">${n.title}</h3></div>
-                        </div>
-                    `;
-          });
-          bannerContainer.innerHTML = bannerHTML;
-
-          let currentSlide = 0;
-          const slides = document.querySelectorAll('.banner-slide');
-          if (slides.length > 1) {
-            setInterval(() => {
-              slides[currentSlide].classList.remove('active');
-              currentSlide = (currentSlide + 1) % slides.length;
-              slides[currentSlide].classList.add('active');
-            }, 6000); // 6 segundos por banner
-          }
-        })
-        .catch(error => console.error("Error cargando banner:", error));
-
       // Fetch horarios
       fetch("horarios.json?v=" + new Date().getTime())
         .then(response => response.json())
